@@ -1,15 +1,17 @@
 import React from "react";
-import './Profile.css';
+import './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import {ProfilePageType} from "../../Redux/State";
 
+type ProfilePropsType = {
+    state: ProfilePageType
+}
 
-const Profile = () => {
-    return <div className="content">
-        <div>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5t_Zh-YU2u2wa5ZH2ynpNv-Va9QeeXNwJGw&usqp=CAU" alt="content"/>
-        </div>
-        <div>ava + description</div>
-        <MyPosts />
+const Profile = (props: ProfilePropsType) => {
+    return <div>
+        <ProfileInfo/>
+        <MyPosts state={props.state.postData}/>
     </div>
 }
 
