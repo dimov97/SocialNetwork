@@ -10,15 +10,22 @@ import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import {RootStateType} from "./Redux/State";
 
+type appPropsType = {
+    state: RootStateType
+    addPost:(postMessage:string)=>void
+}
 
-const App = (props:{ state: RootStateType}) => {
+
+const App = (props:appPropsType) => {
   return (
       <BrowserRouter>
           <div className="app-wrapper">
               <Header/>
               <Navbar/>
               <div className="app-wrapper-content">
-                  <Route path='/profile' render={()=> <Profile state={props.state.profilePage} />}/>
+                  <Route path='/profile' render={()=> <Profile
+                      profilePage={props.state.profilePage}
+                      addPost={props.addPost} />}/>
                   <Route path='/dialogs' render={()=> <Dialogs state={props.state.dialogsPage} />}/>
                   <Route path='/news' render={()=> <News />}/>
                   <Route path='/music' render={()=> <Music />}/>
