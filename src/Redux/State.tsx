@@ -1,6 +1,58 @@
-let rerenderEntireTree = ()=> {
-    console.log('state is changed')
+let store:storeType = {
+    _state: {
+    profilePage: {
+        messageForNewPost: '',
+        postData: [
+            {id: 1, message: 'hi, how are you ?', likesCount: 32},
+            {id: 2, message: 'this is my first post', likesCount: 12}
+        ]
+    },
+    dialogsPage: {
+        dialogsData: [
+            {id: 1, name: "Dimych"},
+            {id: 2, name: "Alena"},
+            {id: 3, name: "Sveta"},
+            {id: 4, name: "Kolya"},
+            {id: 5, name: "Ihor"},
+            {id: 6, name: "Pavel"},
+            {id: 7, name: "Valera"},
+        ],
+        messagesData: [
+            {id: 1, message: 'hi'},
+            {id: 2, message: 'how is your IT ?'},
+            {id: 3, message: 'yo'}
+        ]
+    }
+},
+    _rerenderEntireTree () {
+        console.log('state is changed')
+    },
+    addPost (postMessage:string) {
+        const newPost:PostDataType = {id:5, message:postMessage, likesCount: 0}
+        this._state.profilePage.postData.push(newPost)
+            this._rerenderEntireTree()
+    },
+    changeNewText (newText:string) {
+        this._state.profilePage.messageForNewPost = newText
+            this._rerenderEntireTree()
+    },
+    subscribe (observer) {
+        this._rerenderEntireTree = observer
+    },
+    getState() {
+        return this._state
+    }
 }
+export type storeType = {
+    getState:()=>RootStateType
+    _rerenderEntireTree:()=>void
+    _state: RootStateType
+    changeNewText:(newText:string)=>void
+    addPost:(postMessage:string)=>void
+    subscribe:(observer:()=>void)=>void
+
+}
+
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
@@ -27,44 +79,5 @@ export type DialogsPageType = {
     messagesData: Array<MessagesDataType>
 }
 
-let state: RootStateType = {
-    profilePage: {
-        messageForNewPost: '',
-        postData: [
-            {id: 1, message: 'hi, how are you ?', likesCount: 32},
-            {id: 2, message: 'this is my first post', likesCount: 12}
-        ]
-    },
-    dialogsPage: {
-        dialogsData: [
-            {id: 1, name: "Dimych"},
-            {id: 2, name: "Alena"},
-            {id: 3, name: "Sveta"},
-            {id: 4, name: "Kolya"},
-            {id: 5, name: "Ihor"},
-            {id: 6, name: "Pavel"},
-            {id: 7, name: "Valera"},
-        ],
-        messagesData: [
-            {id: 1, message: 'hi'},
-            {id: 2, message: 'how is your IT ?'},
-            {id: 3, message: 'yo'}
-        ]
-    }
-}
 
-export let addPost = (postMessage:string) => {
-    const newPost:PostDataType = {id:5, message:postMessage, likesCount: 0}
-    state.profilePage.postData.push(newPost)
-    rerenderEntireTree()
-}
-export const changeNewText = (newText:string) => {
-    state.profilePage.messageForNewPost = newText
-    rerenderEntireTree()
-}
-
-export const subscribe = (observer:()=>void) => {
-    rerenderEntireTree = observer
-}
-
-export default state;
+export default store;
